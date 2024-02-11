@@ -38,6 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sfondo
+    uniqueID: 3172420205
+    locked: 0
+  - name: Piattaforme
+    uniqueID: 2445399947
+    locked: 0
+  - name: Oggetti
+    uniqueID: 1171016619
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Personaggio
+    uniqueID: 2698149761
     locked: 0
