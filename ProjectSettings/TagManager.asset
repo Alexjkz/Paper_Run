@@ -42,6 +42,9 @@ TagManager:
   - name: Sfondo
     uniqueID: 3172420205
     locked: 0
+  - name: OggettiSfondo
+    uniqueID: 1459800507
+    locked: 0
   - name: Piattaforme
     uniqueID: 2445399947
     locked: 0

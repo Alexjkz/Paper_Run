@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _jumpInput;
     private float _moveInput;
+    private bool reverse = false;
 
 
 
@@ -74,9 +75,26 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(movement * _speed * Time.deltaTime);
 
         // Animazioni movimento
-        if(isItGrounded() && _moveInput != 0.0f)
+        if(isItGrounded() && _moveInput > 0.0f)
         {
             animatorMario.SetInteger("StateMarioRed",1);
+            if(reverse == true)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                reverse = false;
+            }
+            
+            reverse = false;
+        }
+        else if(isItGrounded() && _moveInput < 0.0f)
+        {
+            animatorMario.SetInteger("StateMarioRed",1);
+            if(reverse == false)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                reverse = true;
+            }
+            
         }
         else if(isItGrounded() == false)
         {
@@ -92,7 +110,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbodyMario.AddForce(new Vector3(0.0f, _jumpForce, 0.0f), ForceMode2D.Impulse);
             _jumpInput = false;
-            
         }
         Debug.Log(isItGrounded());
 
@@ -105,12 +122,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer))
         {
-            Debug.Log("DIOCAN");
+            Debug.Log("IsGrounded");
             return true;
         }
         else
         {
-            Debug.Log("DIOBESTIA");
+            Debug.Log("IsNotGrounded");
             return false;
         }
 
