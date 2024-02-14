@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terreno
+  - DorsoNutria
+  - NutriaDamage
   layers:
   - Default
   - TransparentFX
@@ -44,6 +46,9 @@ TagManager:
     locked: 0
   - name: OggettiSfondo
     uniqueID: 1459800507
+    locked: 0
+  - name: OggettiSfondoPrimoPiano
+    uniqueID: 237905551
     locked: 0
   - name: Piattaforme
     uniqueID: 2445399947

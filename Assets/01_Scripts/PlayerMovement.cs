@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows.Speech;
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 2f;
     [SerializeField] private Vector2 boxSize;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private GameObject pannelloSconfitta;
+    [SerializeField] private GameObject pannelloVincita;
 
 
     private Rigidbody2D rigidbodyMario;
@@ -32,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        
         //input = new MyInputSystem();
 
         controls = new PlayerControls();
@@ -57,6 +61,12 @@ public class PlayerMovement : MonoBehaviour
     void OnDisable()
     {
         controls.Disable();
+    }
+
+    void Start()
+    {
+        pannelloSconfitta.SetActive(false);
+        pannelloVincita.SetActive(false);
     }
 
 
@@ -132,6 +142,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.collider.tag == "NutriaDamage")
+        {
+            Debug.Log("YOU LOST");
+            Time.timeScale = 0f;
+            pannelloSconfitta.SetActive(true);
+            
+        }
+    }
+
+    //---- ALTRO ----
 
     // private void OnDrawGizmos()
     // {
