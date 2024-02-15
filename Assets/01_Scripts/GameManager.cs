@@ -1,20 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private TMP_Text textboxNumeroMonete;
+    public int contatoreMonete;
+    private int moneteIncrement;
+    private AudioSource audioPlayer;
+    
+    void Awake()
+    {
+        audioPlayer = GetComponent<AudioSource>();
+    }
+
+    
     void Start()
     {
-        
+        contatoreMonete = 0;
+        moneteIncrement = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        textboxNumeroMonete.text = contatoreMonete.ToString();
+        if(contatoreMonete > moneteIncrement)
+        {
+            audioPlayer.Play();
+            moneteIncrement = contatoreMonete;
+        }
     }
 
     public void RestartGame()
@@ -22,6 +39,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainScene");
         Time.timeScale = 1f;
     }
+
 
     //     public void Pausa()
     // {
