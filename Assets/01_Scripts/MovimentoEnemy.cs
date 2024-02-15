@@ -9,14 +9,18 @@ public class MovimentoEnemy : MonoBehaviour
 {
     [SerializeField] private float speed = 6.0f;
     [SerializeField] private float fallingTreshold = -3.5f;
+    [SerializeField] GameObject player;
+    [SerializeField] float distanzaAttivazioneNutria = 10f;
     private Animator animatorNutria;
     private Collider2D myCapsuleCollider;
     private Rigidbody2D rigidbodyNutria;
     private float nutriaYaxis;
     private Transform nutriaPosition;
+    private bool startMoving = false;
+    private Transform playerPosition;
+
 
     
-
 
     // Vector3 movement = new Vector3(-1f, 0.0f, 0.0f);
     // Start is called before the first frame update
@@ -26,12 +30,22 @@ public class MovimentoEnemy : MonoBehaviour
         rigidbodyNutria = GetComponent<Rigidbody2D>();
         nutriaPosition = GetComponent<Transform>();
 
+        playerPosition = player.GetComponent<Transform>();
+
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"Distanza {nutriaPosition.position.x - playerPosition.position.x}");
         //transform.Translate(movement * speed * Time.deltaTime);
+        if(nutriaPosition.position.x - playerPosition.position.x < distanzaAttivazioneNutria && !startMoving)
+        {
+            startMoving = true;
+        }
+        
 
         // Morte
         nutriaYaxis = nutriaPosition.position.y;
@@ -41,9 +55,13 @@ public class MovimentoEnemy : MonoBehaviour
         }
     }
 
+
     void FixedUpdate()
     {
-        rigidbodyNutria.velocity = new Vector2(-1f * speed, rigidbodyNutria.velocity.y);
+        if (startMoving)
+        {
+            rigidbodyNutria.velocity = new Vector2(-1f * speed, rigidbodyNutria.velocity.y);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
