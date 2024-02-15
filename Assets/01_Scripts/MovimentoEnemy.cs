@@ -73,10 +73,10 @@ public class MovimentoEnemy : MonoBehaviour
         }
     }
 
-    // ---- ATTIVO FUNZIONE ESTERNAMENTE ---- MI sa che non la uso questa 
-    public void EnemyController()
-    {
-        animatorNutria.SetInteger("NutriaState",1);
-        speed = 0;
-    }
+    // // ---- ATTIVO FUNZIONE ESTERNAMENTE ---- MI sa che non la uso questa 
+    // public void EnemyController()
+    // {
+    //     animatorNutria.SetInteger("NutriaState",1);
+    //     speed = 0;
+    // }
 }

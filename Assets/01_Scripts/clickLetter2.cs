@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    
+    [SerializeField] private GameObject letteraInMano;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +20,6 @@ public class NewBehaviourScript : MonoBehaviour
     private void OnMouseDown()
     {
         gameObject.SetActive(false);
+        letteraInMano.gameObject.SetActive(true);
     }
 }

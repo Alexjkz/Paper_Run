@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject pannelloSconfitta;
     [SerializeField] private GameObject pannelloVincita;
+    [SerializeField] private GameObject letteraInMano;
     [SerializeField] private float fallingTreshold = -5.0f;
 
 
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private float _moveInput;
     private bool reverse = false;
     public Vector3 marioMovement;
+    private AudioSource effettoSalto;
 
 
 
@@ -44,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         animatorMario = GetComponent<Animator>();
         statoMario = animatorMario.GetInteger("StateMarioRed");
         marioPosition = GetComponent<Transform>();
+        effettoSalto = GetComponent<AudioSource>();
 
         controls.MyInputSystem.Movement.performed += ctx => _moveInput = ctx.ReadValue<float>();
         controls.MyInputSystem.Movement.canceled += ctx => _moveInput = 0.0f;
@@ -108,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                 reverse = false;
+                letteraInMano.gameObject.SetActive(false);
             }
             reverse = false;
         }
@@ -118,11 +122,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                 reverse = true;
+                letteraInMano.gameObject.SetActive(false);
+                
             }      
         }
         else if(isItGrounded() && _moveInput == 0.0f && isJumping == false)
         {
-            animatorMario.SetInteger("StateMarioRed",0);      
+            animatorMario.SetInteger("StateMarioRed",0);
+            
         }
         else
         {
@@ -143,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator jumpAnimation()
     {
+        effettoSalto.Play();
         animatorMario.SetInteger("StateMarioRed",2);
         yield return new WaitForSeconds(0.5f);
         animatorMario.SetInteger("StateMarioRed",0);
