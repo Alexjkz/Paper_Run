@@ -18,6 +18,7 @@ public class MovimentoEnemy : MonoBehaviour
     private Transform nutriaPosition;
     private bool startMoving = false;
     private Transform playerPosition;
+    private AudioSource audioPlayerSuonoMorte;
 
 
     
@@ -31,6 +32,7 @@ public class MovimentoEnemy : MonoBehaviour
         nutriaPosition = GetComponent<Transform>();
 
         playerPosition = player.GetComponent<Transform>();
+        audioPlayerSuonoMorte = GetComponent<AudioSource>();
 
     }
 
@@ -66,10 +68,16 @@ public class MovimentoEnemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Transform childTransform = transform.Find("NutriaPiedi");
         if(collision.collider.tag == "Player")
         {
+            audioPlayerSuonoMorte.Play();
             animatorNutria.SetInteger("NutriaState",1);
             speed = 0;
+            rigidbodyNutria.simulated = false;
+            childTransform.GetComponent<Collider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+
         }
     }
 
