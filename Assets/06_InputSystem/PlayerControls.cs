@@ -44,6 +44,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""682967db-ec51-45fa-a209-5387a7fa96f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -178,6 +187,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2e926b8-6ac1-4173-8607-0d7ce2384487"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b5d8cfa-4ce0-4d2a-8ad5-e51f2209ba17"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,6 +219,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_MyInputSystem = asset.FindActionMap("MyInputSystem", throwIfNotFound: true);
         m_MyInputSystem_Jump = m_MyInputSystem.FindAction("Jump", throwIfNotFound: true);
         m_MyInputSystem_Movement = m_MyInputSystem.FindAction("Movement", throwIfNotFound: true);
+        m_MyInputSystem_Pause = m_MyInputSystem.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,12 +283,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IMyInputSystemActions> m_MyInputSystemActionsCallbackInterfaces = new List<IMyInputSystemActions>();
     private readonly InputAction m_MyInputSystem_Jump;
     private readonly InputAction m_MyInputSystem_Movement;
+    private readonly InputAction m_MyInputSystem_Pause;
     public struct MyInputSystemActions
     {
         private @PlayerControls m_Wrapper;
         public MyInputSystemActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_MyInputSystem_Jump;
         public InputAction @Movement => m_Wrapper.m_MyInputSystem_Movement;
+        public InputAction @Pause => m_Wrapper.m_MyInputSystem_Pause;
         public InputActionMap Get() { return m_Wrapper.m_MyInputSystem; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -272,6 +306,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IMyInputSystemActions instance)
@@ -282,6 +319,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IMyInputSystemActions instance)
@@ -303,5 +343,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

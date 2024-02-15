@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = false;
     private bool _jumpInput;
     private float _moveInput;
+    private bool _pauseInput;
     private bool reverse = false;
     public Vector3 marioMovement;
     private AudioSource effettoSalto;
@@ -53,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
 
         controls.MyInputSystem.Jump.performed += ctx => _jumpInput = true;
         controls.MyInputSystem.Jump.canceled += ctx => _jumpInput = false;
+
+        controls.MyInputSystem.Pause.performed += ctx => _pauseInput = true;
+        controls.MyInputSystem.Pause.canceled += ctx => _pauseInput = false;
     }
 
 
@@ -143,6 +147,19 @@ public class PlayerMovement : MonoBehaviour
         if(marioYAxis < fallingTreshold)
         {
             YouLost();
+        }
+
+        // Pausa
+        if(_pauseInput)
+        {
+            if(Time.timeScale != 0)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
     }
 
