@@ -110,23 +110,25 @@ public class PlayerMovement : MonoBehaviour
         // Animazioni
         if(isItGrounded() && _moveInput > 0.0f && isJumping == false)
         {
+            letteraInMano.gameObject.SetActive(false);
             animatorMario.SetInteger("StateMarioRed",1);
             if(reverse == true)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                 reverse = false;
-                letteraInMano.gameObject.SetActive(false);
+                
             }
             reverse = false;
         }
         else if(isItGrounded() && _moveInput < 0.0f && isJumping == false)
         {
+            letteraInMano.gameObject.SetActive(false);
             animatorMario.SetInteger("StateMarioRed",1);
             if(reverse == false)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                 reverse = true;
-                letteraInMano.gameObject.SetActive(false);
+                
                 
             }      
         }
