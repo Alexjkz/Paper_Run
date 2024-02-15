@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows.Speech;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _jumpInput;
     private float _moveInput;
     private bool reverse = false;
+    public Vector3 marioMovement;
 
 
 
@@ -72,13 +74,31 @@ public class PlayerMovement : MonoBehaviour
         pannelloVincita.SetActive(false);
     }
 
+    void FixedUpdate()
+    {
 
+        rigidbodyMario.velocity = marioMovement;
+
+
+                // Salto
+        if(isItGrounded() && _jumpInput)
+        {
+            rigidbodyMario.velocity = new Vector2(rigidbodyMario.velocity.x, _jumpForce);
+            isJumping = true;
+            StartCoroutine(jumpAnimation());
+            _jumpInput = false;
+            
+        }
+        Debug.Log(isItGrounded());
+        Debug.DrawRay(transform.position, Vector2.down * groundCheckDistance, Color.red);
+
+    }
 
     void Update()
     {
         // Movimento
-        Vector3 movement = new Vector3(_moveInput, 0.0f, 0.0f);
-        transform.Translate(movement * _speed * Time.deltaTime);
+        marioMovement = new Vector2(_moveInput * _speed, rigidbodyMario.velocity.y);
+        //transform.Translate(marioMovement * _speed * Time.deltaTime);
 
         // Animazioni
         if(isItGrounded() && _moveInput > 0.0f && isJumping == false)
@@ -109,21 +129,10 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Non sono grounded");
         }
 
-        // Salto
-        if(isItGrounded() && _jumpInput)
-        {
-            rigidbodyMario.AddForce(new Vector3(0.0f, _jumpForce, 0.0f), ForceMode2D.Impulse);
-            isJumping = true;
-            StartCoroutine(jumpAnimation());
-            _jumpInput = false;
-            
-        }
-        Debug.Log(isItGrounded());
-        Debug.DrawRay(transform.position, Vector2.down * groundCheckDistance, Color.red);
+
         
         // Morte
         marioYAxis = marioPosition.position.y;
-        Debug.Log(marioYAxis);
         if(marioYAxis < fallingTreshold)
         {
             YouLost();
