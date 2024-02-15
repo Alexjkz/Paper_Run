@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows.Speech;
@@ -38,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1f;
         controls = new PlayerControls();
 
         rigidbodyMario = GetComponent<Rigidbody2D>();
