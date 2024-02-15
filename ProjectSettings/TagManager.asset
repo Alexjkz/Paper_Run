@@ -62,3 +62,6 @@ TagManager:
   - name: Personaggio
     uniqueID: 2698149761
     locked: 0
+  - name: Pop-up
+    uniqueID: 4073104901
+    locked: 0
